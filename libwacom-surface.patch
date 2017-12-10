@@ -1,0 +1,77 @@
+diff --git a/data/surface.tablet b/data/surface.tablet
+new file mode 100644
+index 0000000..401fd62
+--- /dev/null
++++ b/data/surface.tablet
+@@ -0,0 +1,14 @@
++# Microsoft Surface Pro/Surface Book
++
++[Device]
++Name=Microsoft Surface Pro/Book
++DeviceMatch=mei:1b96:006a;mei:1b96:001F;mei:1b96:005e;mei:1b96:0020
++Class=ISDV4
++Width=10
++Height=6
++IntegratedIn=Display;System
++
++[Features]
++Stylus=true
++Touch=true
++Buttons=0
+diff --git a/libwacom/libwacom-database.c b/libwacom/libwacom-database.c
+index 33c4393..e14f2e1 100644
+--- a/libwacom/libwacom-database.c
++++ b/libwacom/libwacom-database.c
+@@ -112,6 +112,8 @@ bus_from_str (const char *str)
+ 		return WBUSTYPE_BLUETOOTH;
+ 	if (strcmp (str, "i2c") == 0)
+ 		return WBUSTYPE_I2C;
++	if (strcmp (str, "mei") == 0)
++		return WBUSTYPE_MEI;
+ 	return WBUSTYPE_UNKNOWN;
+ }
+ 
+@@ -130,6 +132,8 @@ bus_to_str (WacomBusType bus)
+ 		return "bluetooth";
+ 	case WBUSTYPE_I2C:
+ 		return "i2c";
++	case WBUSTYPE_MEI:
++		return "mei";
+ 	}
+ 	g_assert_not_reached ();
+ }
+diff --git a/libwacom/libwacom.c b/libwacom/libwacom.c
+index 3daff81..99af617 100644
+--- a/libwacom/libwacom.c
++++ b/libwacom/libwacom.c
+@@ -144,6 +144,10 @@ get_bus_vid_pid (GUdevDevice  *device,
+ 		*bus = WBUSTYPE_I2C;
+ 		retval = TRUE;
+ 		break;
++	case 68:
++		*bus = WBUSTYPE_MEI;
++		retval = TRUE;
++		break;
+ 	}
+ 
+ out:
+@@ -731,6 +735,7 @@ static void print_match(int fd, const WacomMatch *match)
+ 		case WBUSTYPE_USB:		bus_name = "usb";	break;
+ 		case WBUSTYPE_SERIAL:		bus_name = "serial";	break;
+ 		case WBUSTYPE_I2C:		bus_name = "i2c";	break;
++		case WBUSTYPE_MEI:		bus_name = "mei";	break;
+ 		case WBUSTYPE_UNKNOWN:		bus_name = "unknown";	break;
+ 		default:			g_assert_not_reached(); break;
+ 	}
+diff --git a/libwacom/libwacom.h b/libwacom/libwacom.h
+index bb968e7..24ab9f3 100644
+--- a/libwacom/libwacom.h
++++ b/libwacom/libwacom.h
+@@ -116,6 +116,7 @@ typedef enum {
+ 	WBUSTYPE_SERIAL,	/**< Serial tablet */
+ 	WBUSTYPE_BLUETOOTH,	/**< Bluetooth tablet */
+ 	WBUSTYPE_I2C,		/**< I2C tablet */
++	WBUSTYPE_MEI,		/**< MEI */
+ } WacomBusType;
+ 
+ /**
