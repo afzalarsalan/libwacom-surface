@@ -35,14 +35,14 @@ build() {
 }
 
 check() {
-  cd $pkgname-$pkgver
+  cd libwacom-$pkgver
   make check
 }
 
 package() {
-  cd $pkgname-$pkgver
+  cd libwacom-$pkgver
   make DESTDIR="$pkgdir" install
-  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/libwacom/LICENSE"
   install -m755 -d ${pkgdir}/usr/lib/udev/rules.d
   cd tools
   ./generate-udev-rules > ${pkgdir}/usr/lib/udev/rules.d/65-libwacom.rules
