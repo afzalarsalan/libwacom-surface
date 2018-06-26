@@ -2,7 +2,7 @@
 # Maintainer: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
 
 pkgname=libwacom-surface
-pkgver=0.29
+pkgver=0.30
 pkgrel=1
 pkgdesc="Library to identify Wacom tablets and their features - patched for Surface devices"
 arch=('x86_64')
@@ -10,17 +10,17 @@ url="https://github.com/linuxwacom/libwacom/wiki"
 license=('MIT')
 depends=('glib2' 'systemd' 'libgudev')
 makedepends=('libxml2')
-provides=('libwacom=0.29')
+provides=('libwacom=0.30')
 conflicts=('libwacom')
 validpgpkeys=('3C2C43D9447D5938EF4551EBE23B7E70B467F0BF')
 source=(
-  "https://sourceforge.net/projects/linuxwacom/files/libwacom/libwacom-$pkgver.tar.bz2"{,.sig}
+  https://github.com/linuxwacom/libwacom/releases/download/libwacom-${pkgver}/libwacom-${pkgver}.tar.bz2{,.sig}
   'libwacom-surface.patch'
 )
-sha1sums=('6782d32af328bc984d7c4f65062f04a9172d342c'
+sha1sums=('f1f75093309a792343872835865573206a0f2ef0'
           'SKIP'
           '9a38245dfbd7f85ce4e41b33a159b2c60c338e06')
-sha256sums=('9cea00e68ddf342c3f749f6628d33fd3646f1937d7c57053ec6c5728d9a333b6'
+sha256sums=('523408680514c0f01052e478503d8e89f86d72ddc7129fdd63988c221c492259'
             'SKIP'
             'c3ffa52b6b66e281342e87a6bcf7f8c4c4bbf1566b5fb4bfac87e09218695034')
 
